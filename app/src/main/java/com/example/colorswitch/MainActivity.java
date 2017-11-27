@@ -45,7 +45,14 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Thread.currentThread().sleep(4000);
                 } catch (InterruptedException e) { }
-                resultField.setText("Resultado " + resultField.getText());
+
+                runOnUiThread(new Runnable(){
+                    @Override
+                    public void run() {
+                        resultField.setText("Resultado " +
+                                resultField.getText());
+                    }
+                });
             }
         }).start();
     }
