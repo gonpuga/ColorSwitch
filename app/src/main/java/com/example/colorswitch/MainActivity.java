@@ -5,18 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG=MainActivity.class.getName();
     private LinearLayout screenLayout = null;
+    public EditText resultField;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         screenLayout = (LinearLayout) findViewById(R.id.layoutMain);
+        resultField = (EditText) findViewById(R.id.resultField);
         Log.v(TAG, "En onCreate():" + Thread.currentThread().getId());
     }
 
@@ -33,5 +36,15 @@ public class MainActivity extends AppCompatActivity {
         Log.v(TAG, "En blueOnClick():"+Thread.currentThread().getId());
         screenLayout.setBackgroundColor(Color.BLUE);
     }
+
+    public void longCalculation(View v) {
+        Log.v(TAG, "En longCalculation():" +
+                Thread.currentThread().getId());
+        try {
+            Thread.currentThread().sleep(4000);
+        } catch (InterruptedException e) {}
+        resultField.setText("Resultado " + resultField.getText());
+    }
+
 }
 
