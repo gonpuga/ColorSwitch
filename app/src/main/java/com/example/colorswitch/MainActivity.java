@@ -38,13 +38,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void longCalculation(View v) {
-        Log.v(TAG, "En longCalculation():" +
-                Thread.currentThread().getId());
-        try {
-            Thread.currentThread().sleep(4000);
-        } catch (InterruptedException e) {}
-        resultField.setText("Resultado " + resultField.getText());
+        new Thread(new Runnable() {
+            public void run() {
+                Log.v(TAG, "En longCalculation():" +
+                        Thread.currentThread().getId());
+                try {
+                    Thread.currentThread().sleep(4000);
+                } catch (InterruptedException e) { }
+                resultField.setText("Resultado " + resultField.getText());
+            }
+        }).start();
     }
-
 }
 
