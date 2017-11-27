@@ -2,6 +2,7 @@ package com.example.colorswitch;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG=MainActivity.class.getName();
     private LinearLayout screenLayout = null;
     public EditText resultField;
+    private HandlerExtension resultHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         screenLayout = (LinearLayout) findViewById(R.id.layoutMain);
         resultField = (EditText) findViewById(R.id.resultField);
+        resultHandler=new HandlerExtension(this);
         Log.v(TAG, "En onCreate():" + Thread.currentThread().getId());
     }
 
@@ -46,15 +49,14 @@ public class MainActivity extends AppCompatActivity {
                     Thread.currentThread().sleep(4000);
                 } catch (InterruptedException e) { }
 
-                resultField.post(new Runnable(){
-                    @Override
-                    public void run() {
-                        resultField.setText("Resultado " +
-                                resultField.getText());
-                    }
-                });
+                Bundle msgBundle=new Bundle();
+                msgBundle.putString("result", " Resultado");
+                Message msg=new Message();
+                msg.setData(msgBundle);
+                resultHandler.sendMessage(msg);
             }
         }).start();
     }
+
 }
 
