@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     Thread.currentThread().sleep(4000);
                 } catch (InterruptedException e) { }
 
-                runOnUiThread(new Runnable(){
+                resultField.post(new Runnable(){
                     @Override
                     public void run() {
                         resultField.setText("Resultado " +
