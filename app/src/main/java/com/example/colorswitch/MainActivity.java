@@ -1,7 +1,12 @@
 package com.example.colorswitch;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +16,7 @@ import android.widget.LinearLayout;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG=MainActivity.class.getName();
+    private static final String LOCAL_INTENT="com.example.colorswitch.CUSTOM_ACTION";
     private LinearLayout screenLayout = null;
     public EditText resultField;
 
@@ -46,15 +52,38 @@ public class MainActivity extends AppCompatActivity {
                     Thread.currentThread().sleep(4000);
                 } catch (InterruptedException e) { }
 
-                resultField.post(new Runnable(){
-                    @Override
-                    public void run() {
-                        resultField.setText("Resultado " +
-                                resultField.getText());
-                    }
-                });
+                Intent intent=new Intent(LOCAL_INTENT);
+                intent.putExtra("result", "Resultado");
+                LocalBroadcastManager.getInstance(MainActivity.this).sendBroadcast(intent);
             }
         }).start();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        // unregister local broadcast
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // register local broadcast
+        IntentFilter filter = new IntentFilter(LOCAL_INTENT);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+    }
+
+    /**
+     * Broadcast receiver to receive the data
+     */
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String resultado = intent.getStringExtra("result");
+            resultField.setText(resultField.getText() + " " + resultado);
+        }
+    };
 }
 
