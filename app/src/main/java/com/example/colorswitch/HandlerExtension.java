@@ -14,7 +14,7 @@ public class HandlerExtension extends Handler {
 
     public HandlerExtension(MainActivity activity)
     {
-        actividad=new WeakReference<MainActivity>(activity);
+        actividad=new WeakReference<>(activity);
     }
 
     @Override
