@@ -2,10 +2,11 @@ package com.example.colorswitch;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        screenLayout = (LinearLayout) findViewById(R.id.layoutMain);
+        screenLayout = findViewById(R.id.layoutMain);
         Log.v(TAG, "En onCreate():" + Thread.currentThread().getId());
     }
 
